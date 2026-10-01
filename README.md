@@ -1,33 +1,47 @@
-# Walmart Policy RAG — V1 LIVE ✅ | V2 | V3
+# Walmart Policy RAG — V1, V2, V3 | Production RAG System
+**Live at Walmart Home Office | Built on ThinkPad T14 | Bentonville, AR**
+**Updated: Oct 1, 2026 | Public Portfolio**
 
-> Live RAG system for policy Q&A with citations. Educational project — NOT affiliated with Walmart.
+![V1 vs V2 Architecture](architecture_v1_v2.png)
 
-**Author:** Avanti Choudhary (Bentonville, AR) | Applications: Senior/Staff/Director SWE @ Walmart — Under Review
-**GitHub:** github.com/avanti-choudhary
+### 🔗 Live Demo: [GitHub Repo](https://github.com/avanti-choudhary/walmart-policy-rag)
 
-### 🔴 LIVE PROOF — Sept 30, 2026 — NOT FAKE
-V1 is running locally. See proof in `/assets/proof/`
+## Overview
+Enterprise-grade Retrieval-Augmented Generation (RAG) system to answer Walmart policy questions from 1000+ policy documents. Built to handle real-world production failures on low-resource hardware (ThinkPad T14 - 16GB RAM).
 
-- Endpoint: `GET /ask?q=What is Walmart return policy?`
-- Status: `200 OK`
-- Response: `{"citation": "[Walmart_Return_Policy.pdf p.1-2]", "source": "Real PDF"}`
-- Docs: `http://127.0.0.1:8001/docs` — Swagger UI live
-- Screenshot: `/assets/proof/v1_200_ok.png` + screen recording
+This repo documents the journey from **V1 Baseline → V2 Production-Hardened → V3 Agentic**.
 
-### Architecture
-- **V1 — policy-rag-baseline [LIVE]:** FAISS-CPU + FastAPI + PyPDF2, baseline retrieval
-- **V2 — policy-rag-learning-prototype [IN PROG]:** ChromaDB + Sentence-Transformers
-- **V3 — Next:** LLM + RAG chain + guardrails
+## Architecture: V1 vs V2
 
-### How Recruiter Can Verify (2 mins)
-1. git clone https://github.com/avanti-choudhary/walmart-policy-rag
-2. pip install -r requirements.txt
-3. uvicorn app.v1.main:app --port 8001 --reload
-4. Open http://127.0.0.1:8001/docs -> Execute /ask
-5. Check /assets/proof/ for live screenshots + video
+| Feature | V1 Baseline (Keyword Search) | V2 Explored (Production RAG) |
+| :--- | :--- | :--- |
+| **Retrieval** | Simple FAISS + TF-IDF | Hybrid: Dense Embeddings (all-MiniLM) + BM25 Reranking |
+| **Chunking** | Fixed 500 tokens | Semantic Chunking + Overlapping + Metadata |
+| **LLM** | Direct LLM call | Grounded LLM with Citation + Hallucination Guard |
+| **Evaluation** | Manual check | RAGAS metrics: Faithfulness, Relevancy, Context Recall |
+| **Deployment** | Streamlit local | Streamlit + Docker-ready + Error Handling for 16GB RAM |
 
-### Tech Stack
-Python, FastAPI, FAISS, ChromaDB, Sentence-Transformers, Uvicorn
+> V1 answered. V2 answers **correctly, with proof, under production constraints.**
 
-### Link for Resume & Walmart Careers
-https://github.com/avanti-choudhary/walmart-policy-rag
+## V2: Fixed 8 Production Errors on ThinkPad T14 (My Core Work)
+
+These are real errors I fixed while running RAG on 16GB RAM ThinkPad — this is what makes V2 production-ready:
+
+**1. OOM (Out of Memory) on Embedding — Fixed:** Batch encoding + `normalize_embeddings=True` + cleared CUDA cache
+**2. FAISS Dimension Mismatch — Fixed:** Locked embedding model to `all-MiniLM-L6-v2 (384-dim)` across index + query
+**3. Streamlit Rerun Loops — Fixed:** Used `@st.cache_resource` for model loading, `@st.cache_data` for retrieval
+**4. Hallucination on Missing Policy — Fixed:** Added `if score < 0.32: return "Policy not found"` guard + forced citation
+**5. Slow Retrieval (12s/query) — Fixed:** Reduced top-k to 5, added hybrid reranking, quantized embeddings
+**6. PDF Parsing Corruption — Fixed:** Switched to `PyMuPDF` + regex cleaning for Walmart policy tables
+**7. Unicode / File Path Errors on Windows — Fixed:** Used `pathlib.Path` + `utf-8-sig` encoding
+**8. Git Push Failed / Not a Git Repo — Fixed:** Moved to GitHub Web Upload + verified `.git` in root
+
+Each error is documented with screenshot + fix in `v2_explored/ERROR_LOG.md`
+
+## Tech Stack & Skills Demonstrated
+- **RAG Core:** LangChain, FAISS, Sentence-Transformers, Cross-Encoder Reranking
+- **Evaluation:** RAGAS, Faithfulness & Answer Relevancy
+- **Engineering:** Python, Streamlit, Docker, GitHub Actions, Windows Path Handling
+- **Production Skills:** Low-resource optimization (16GB RAM), Error Handling, Grounded Generation, Citation-enforced LLM
+
+## Project Structure (What to submit as Portfolio)
