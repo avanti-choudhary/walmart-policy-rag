@@ -1,0 +1,7 @@
+fastapi
+uvicorn
+pypdf
+faiss-cpu
+boto3
+python-dotenv
+networkx

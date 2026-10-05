@@ -1,0 +1,5 @@
+fastapi
+uvicorn
+PyMuPDF
+scikit-learn
+numpy
