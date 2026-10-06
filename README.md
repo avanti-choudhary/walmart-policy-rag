@@ -45,3 +45,9 @@ Each error is documented with screenshot + fix in `v2_explored/ERROR_LOG.md`
 - **Production Skills:** Low-resource optimization (16GB RAM), Error Handling, Grounded Generation, Citation-enforced LLM
 
 ## Project Structure (What to submit as Portfolio)
+
+## V3 Roadmap - COMPLETE ✅ - Oct 6, 2026
+- **Fix 1:** No space left on device - Deleted __pycache__ + Empty Recycle Bin + %temp% on T420 4GB RAM - commit fa80e82
+- **Fix 2:** PyMuPDF migration fitz.open(p) replaces PyPDF2 - commit d6dc4c4
+- **Status:** V2 = Production-Hardened (8 fixes) | V3 = Roadmap Ready - Same fixes applied, Precision@5 eval next
+- Built on Lenovo ThinkPad T420 in Bentonville, AR - Push fa80e82 at 8:01 AM
