@@ -1,5 +1,6 @@
 fastapi
 uvicorn
-pypdf2
+pymupdf
 scikit-learn
+streamlit
 sentence-transformers
